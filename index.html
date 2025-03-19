@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projet Pierre Feuille Ciseaux</title>
+    <style>
+        img {
+            height: 128px;
+            width: 128px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <p>Pierre Feuille Ciseaux</p>
+    <p>
+        <img src="pierre.png" onclick="PFS('Pierre');"></img>
+        <img src="feuille.png" onclick="PFS('Feuille');"></img>
+        <img src="ciseaux.png" onclick="PFS('Ciseaux');"></img>
+    </p>
+    <p id="scoreJoueur">Score Joueur : 0</p>
+    <p id="scoreIA">Score IA : 0</p>
+    <script>
+        let scoreJoueur = 0;
+        let scoreIA = 0;
+
+        function PFS(choixJoueur){
+            let choixIA = Math.floor(Math.random()*3+1);
+
+            if (choixIA == 1){
+                choixIA='Pierre';
+            }
+            else if (choixIA == 2){
+                choixIA='Feuille';
+            }
+            else {
+                choixIA='Ciseaux';
+            }
+
+            if (choixIA=='Pierre' && choixJoueur=='Ciseaux' || choixIA=='Feuille' && choixJoueur=='Pierre' || choixIA=='Ciseaux' && choixJoueur=='Feuille'){
+                scoreIA++;
+                alert("L'IA gagne.");
+            }
+            else if (choixJoueur != choixIA){
+                scoreJoueur++;
+                alert("Le joueur gagne.");
+            }
+            else {
+                alert("Egalite.");
+            }
+            console.log(choixJoueur+" | "+choixIA);
+            document.getElementById('scoreJoueur').innerHTML = "Score Joueur : "+scoreJoueur;
+            document.getElementById('scoreIA').innerHTML = "Score IA : "+scoreIA;
+        }
+
+        function TestPFC(){
+            
+        }
+    </script>
+</body>
+</html>
