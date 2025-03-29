@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pierre Feuille Ciseaux</title>
     <style>
+        img {
+            height: 128px;
+            width: 128px;
+        }
         button {
             border: 1px solid black;
             border-radius: 5px;
@@ -20,9 +24,9 @@
 <body>
     <p>Pierre Feuille Ciseaux</p>
     <p>
-        <button onclick="pfc('Pierre');">Pierre</button>
-        <button onclick="pfc('Feuille');">Feuille</button>
-        <button onclick="pfc('Ciseaux');">Ciseaux</button>
+        <img src="pierre.png" onclick="pfc('Pierre');"></img>
+        <img src="feuille.png" onclick="pfc('Feuille');"></img>
+        <img src="ciseaux.png" onclick="pfc('Ciseaux');"></img>
     </p>
     <p id="result"></p>
     <p id="moves"></p>
