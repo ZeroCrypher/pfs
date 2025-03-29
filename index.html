@@ -1,62 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projet Pierre Feuille Ciseaux</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pierre Feuille Ciseaux</title>
     <style>
-        img {
-            height: 128px;
-            width: 128px;
+        button {
+            border: 1px solid black;
+            border-radius: 5px;
+            padding: 5px;
+            padding-left: 10px;
+            padding-right: 10px;
             cursor: pointer;
         }
     </style>
 </head>
+
 <body>
     <p>Pierre Feuille Ciseaux</p>
     <p>
-        <img src="pierre.png" onclick="PFS('Pierre');"></img>
-        <img src="feuille.png" onclick="PFS('Feuille');"></img>
-        <img src="ciseaux.png" onclick="PFS('Ciseaux');"></img>
+        <button onclick="pfc('Pierre');">Pierre</button>
+        <button onclick="pfc('Feuille');">Feuille</button>
+        <button onclick="pfc('Ciseaux');">Ciseaux</button>
     </p>
+    <p id="result"></p>
+    <p id="moves"></p>
     <p id="scoreJoueur">Score Joueur : 0</p>
     <p id="scoreIA">Score IA : 0</p>
+    <p><button id="renitialiser">Renitialiser</button></p>
     <script>
+        let choixIA;
         let scoreJoueur = 0;
         let scoreIA = 0;
 
-        function PFS(choixJoueur){
-            let choixIA = Math.floor(Math.random()*3+1);
+        function pfc(actionJoueur) {
+            // 1 = Pierre | 2 = Feuille | 3 = Ciseaux
+            // On arondi au entier le plus bas. (ici on va de 1 a 3)
+            choixIA = Math.floor(Math.random() * 4);
+            testValeur(actionJoueur);
 
-            if (choixIA == 1){
-                choixIA='Pierre';
-            }
-            else if (choixIA == 2){
-                choixIA='Feuille';
-            }
-            else {
-                choixIA='Ciseaux';
+            if (choixIA === 1) {
+                choixIA = "Pierre";
+            } else if (choixIA === 2) {
+                choixIA = "Feuille";
+            } else {
+                choixIA = "Ciseaux";
             }
 
-            if (choixIA=='Pierre' && choixJoueur=='Ciseaux' || choixIA=='Feuille' && choixJoueur=='Pierre' || choixIA=='Ciseaux' && choixJoueur=='Feuille'){
+            console.log(actionJoueur + " < P | AI > " + choixIA);
+            if (choixIA === "Ciseaux" && actionJoueur === "Feuille") {
                 scoreIA++;
-                alert("L'IA gagne.");
+                winner('IA', actionJoueur, choixIA);
             }
-            else if (choixJoueur != choixIA){
+            else if (choixIA === "Pierre" && actionJoueur === "Ciseaux") {
+                scoreIA++;
+                winner('IA', actionJoueur, choixIA);
+            }
+            else if (choixIA === "Feuille" && actionJoueur === "Pierre") {
+                scoreIA++;
+                winner('IA', actionJoueur, choixIA);
+            }
+            else if (choixIA != actionJoueur) {
                 scoreJoueur++;
-                alert("Le joueur gagne.");
+                winner('joueur', actionJoueur, choixIA);
             }
             else {
-                alert("Egalite.");
+                document.getElementById('result').innerHTML = "Egalite";
+                document.getElementById('moves').innerHTML = "Vous : " + actionJoueur + " | " + choixIA + ": IA";
             }
-            console.log(choixJoueur+" | "+choixIA);
-            document.getElementById('scoreJoueur').innerHTML = "Score Joueur : "+scoreJoueur;
-            document.getElementById('scoreIA').innerHTML = "Score IA : "+scoreIA;
+            document.getElementById("scoreJoueur").innerHTML = `Score Joueur : ${scoreJoueur}`;
+            document.getElementById("scoreIA").innerHTML = `Score IA : ${scoreIA}`;
         }
 
-        function TestPFC(){
-            
+        const buttonReset = document.getElementById("renitialiser").addEventListener("click", function () {
+            scoreJoueur = 0;
+            scoreIA = 0;
+            document.getElementById("scoreJoueur").innerHTML = `Score Joueur : ${scoreJoueur}`;
+            document.getElementById("scoreIA").innerHTML = `Score IA : ${scoreIA}`;
+        })
+
+        function winner(winnerName, actionJoueur, actionIA) {
+            document.getElementById('result').innerHTML = winnerName === 'joueur' ? "Gagner" : "Perdu";
+            document.getElementById('moves').innerHTML = "Vous : " + actionJoueur + " | " + actionIA + ": IA";
+            //alert(winnerName == 'joueur' ? `Tu a gagner! (J: ${actionJoueur} > IA: ${actionIA})` : `Tu a perdu! (J: ${actionJoueur} < IA: ${actionIA})`);
+        }
+
+        function testValeur(actionJoueur) {
+            const actual = actionJoueur;
+            const expected = "Pierre";
+
+            console.assert(actual === expected, 'Assertion échoué, Expected :', expected, ' Valeur actuelle :', actual);
         }
     </script>
 </body>
+
 </html>
